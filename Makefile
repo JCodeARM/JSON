@@ -22,5 +22,5 @@ all:$(SOURCE_OBJECT)
 	$(CPP) -c $(CXXFLAGS) $< -o  $@
 
 clear:
-	rm $(PROJECT_NAME)
 	rm *.o
+	rm $(PROJECT_NAME) 

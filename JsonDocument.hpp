@@ -41,17 +41,17 @@ public:
 
     JsonObject  * addObject(JsonObject  * lObject,std::string &lProperty);
     JsonArray   * addArray(JsonObject   * lObject,std::string &lProperty);
-    JsonNumber  * addNumber(JsonObject  * lObject,std::string &lProperty,double lValue);
-    JsonString  * addString(JsonObject  * lObject,std::string &lProperty,std::string &lValue);
-    JsonBoolean * addBoolean(JsonObject * lObject,std::string &lProperty,bool lValue);
-    JsonNull    * addNull(JsonObject    * lObject,std::string &lProperty);
+    void addNumber(JsonObject  * lObject,std::string &lProperty,double lValue);
+    void addString(JsonObject  * lObject,std::string &lProperty,std::string &lValue);
+    void addBoolean(JsonObject * lObject,std::string &lProperty,bool lValue);
+    void addNull(JsonObject    * lObject,std::string &lProperty);
 
     JsonObject  * addObject(JsonArray   * lArray);
     JsonArray   * addArray(JsonArray    * lArray);
-    JsonNumber  * addNumber(JsonArray   * lArray,double lValue);
-    JsonString  * addString(JsonArray   * lArray,std::string &lValue);
-    JsonBoolean * addBoolean(JsonArray  * lArray,bool lValue);
-    JsonNull    * addNull(JsonArray     * lArray);
+    void addNumber(JsonArray   * lArray,double lValue);
+    void addString(JsonArray   * lArray,std::string &lValue);
+    void addBoolean(JsonArray  * lArray,bool lValue);
+    void addNull(JsonArray     * lArray);
 
 protected:
     void parseJson(const char* iBegin , const char* iEnd);

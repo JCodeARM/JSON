@@ -54,33 +54,25 @@ JsonArray   * JsonDocument::addArray(JsonObject   * lObject,std::string &lProper
     lObject->addProperty(s, lReturn);
     return lReturn;
 }
-JsonNumber  * JsonDocument::addNumber(JsonObject  * lObject,std::string &lProperty,double lValue){
-    JsonNumber *lReturn;
-    lReturn=new JsonNumber(lValue);
+void JsonDocument::addNumber(JsonObject  * lObject,std::string &lProperty,double lValue){
+
     std::string s("\""+lProperty+"\"");
-    lObject->addProperty(s, lReturn);
-    return lReturn;
+    lObject->addProperty(s, new JsonNumber(lValue));
 }
-JsonString  * JsonDocument::addString(JsonObject  * lObject,std::string &lProperty,std::string &lValue){
-    JsonString *lReturn;
+void JsonDocument::addString(JsonObject  * lObject,std::string &lProperty,std::string &lValue){
+
     std::string s("\""+lProperty+"\"");
-    lReturn=new JsonString(s);
-    lObject->addProperty(lProperty, lReturn);
-    return lReturn;
+    lObject->addProperty(lProperty, new JsonString(s));
 }
-JsonBoolean * JsonDocument::addBoolean(JsonObject * lObject,std::string &lProperty,bool lValue){
-    JsonBoolean *lReturn;
-    lReturn=new JsonBoolean(lValue);
+void JsonDocument::addBoolean(JsonObject * lObject,std::string &lProperty,bool lValue){
+
     std::string s("\""+lProperty+"\"");
-    lObject->addProperty(s, lReturn);
-    return lReturn;
+    lObject->addProperty(s, new JsonBoolean(lValue));
 }
-JsonNull    * JsonDocument::addNull(JsonObject    * lObject,std::string &lProperty){
-    JsonNull *lReturn;
-    lReturn=new JsonNull();
+void JsonDocument::addNull(JsonObject    * lObject,std::string &lProperty){
+
     std::string s("\""+lProperty+"\"");
-    lObject->addProperty(s, lReturn);
-    return lReturn;
+    lObject->addProperty(s, new JsonNull());
 }
 
 JsonObject  * JsonDocument::addObject(JsonArray   * lArray){
@@ -95,30 +87,22 @@ JsonArray   * JsonDocument::addArray(JsonArray    * lArray){
     lArray->additem(lReturn);
     return lReturn;
 }
-JsonNumber  * JsonDocument::addNumber(JsonArray   * lArray,double lValue){
-    JsonNumber *lReturn;
-    lReturn=new JsonNumber(lValue);
-    lArray->additem(lReturn);
-    return lReturn;
+void JsonDocument::addNumber(JsonArray   * lArray,double lValue){
+
+    lArray->additem(new JsonNumber(lValue));
 }
-JsonString  * JsonDocument::addString(JsonArray   * lArray,std::string &lValue){
-    JsonString *lReturn;
+void JsonDocument::addString(JsonArray   * lArray,std::string &lValue){
+
     std::string s("\""+lValue+"\"");
-    lReturn=new JsonString(s);
-    lArray->additem(lReturn);
-    return lReturn;
+    lArray->additem(new JsonString(s));
 }
-JsonBoolean * JsonDocument::addBoolean(JsonArray  * lArray,bool lValue){
-    JsonBoolean *lReturn;
-    lReturn=new JsonBoolean(lValue);
-    lArray->additem(lReturn);
-    return lReturn;
+void JsonDocument::addBoolean(JsonArray  * lArray,bool lValue){
+
+    lArray->additem(new JsonBoolean(lValue));
 }
-JsonNull    * JsonDocument::addNull(JsonArray     * lArray){
-    JsonNull *lReturn;
-    lReturn=new JsonNull();
-    lArray->additem(lReturn);
-    return lReturn;
+void  JsonDocument::addNull(JsonArray     * lArray){
+
+    lArray->additem(new JsonNull()); 
 }
 
 std::vector<char> JsonDocument::getVectorJson(JsonDocumentFormat lFormat){
