@@ -9,31 +9,25 @@
 #define JsonStream_hpp
 
 #include "JsonBase.hpp"
-
-enum class JsonStreamType{
-
-    TerminalOut,
-    ListOut
-};
+ 
 class JsonStream{
 
 public:
 
-    JsonStream(JsonStreamType type = JsonStreamType::TerminalOut);
-
+    JsonStream();
     JsonStream(const JsonStream &)=delete;
     JsonStream(JsonStream && )=delete;
 
     JsonStream & operator =(const JsonStream &)=delete;
     JsonStream & operator =(JsonStream &&)=delete;
-
-    const std::list<std::string> & getStringList();
-private:
-    JsonStreamType lType;
+ 
+private: 
     std::list<std::string>  lListString;
     friend JsonStream & operator << (JsonStream & lout, std::string lin);
     friend JsonStream & operator << (JsonStream & lout, const char *lin);
     friend JsonStream & operator << (JsonStream & lout, double lin);
+
+    friend std::ostream & operator << (std::ostream & lout, JsonStream &lin);
 
 };
 #endif /* JsonStream_hpp */

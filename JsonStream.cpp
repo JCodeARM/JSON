@@ -6,22 +6,11 @@
 //
 
 #include "JsonStream.hpp"
-JsonStream::JsonStream(JsonStreamType type):lType(type){
+JsonStream::JsonStream(){
     
-}
-const std::list<std::string> & JsonStream::getStringList(){
-    return lListString;
 } 
 JsonStream & operator << (JsonStream & lout, std::string lin){
-    switch (lout.lType) {
-        case JsonStreamType::TerminalOut:{
-            std::cout<<lin;
-        }break;
-        case JsonStreamType::ListOut:{
             lout.lListString.push_back(lin);
-        }break;
-        default:{ }break;
-    }
     return lout;
 }
 JsonStream & operator << (JsonStream & lout, double lin){
@@ -29,4 +18,10 @@ JsonStream & operator << (JsonStream & lout, double lin){
 }
 JsonStream & operator << (JsonStream & lout, const char *lin){
     return lout<<std::string(lin);
+}
+std::ostream & operator << (std::ostream & lout, JsonStream &lin){
+    for (auto iBegin=lin.lListString.begin(); iBegin != lin.lListString.end(); iBegin++) {
+        std::cout<<(*iBegin);
+    }
+    return lout;
 }

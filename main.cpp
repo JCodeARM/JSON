@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
 
     std::string pathFile(getenv("PWD"));
     pathFile.append("/file/may.json");
-
+ 
     std::vector<char> lArray;
     FILE *lFile=fopen(pathFile.data(), "r");
 
@@ -42,13 +42,9 @@ int main(int argc, const char * argv[]) {
 
                 JsonDocument docParse=JsonDocument::fromVecotr(lArray);
 
-                JsonStream stream(JsonStreamType::ListOut);
-                stream<<docParse;
+                JsonStream stream;
+                std::cout<<(stream<<docParse);
 
-                auto flit=stream.getStringList();
-                for (auto iBegin=flit.begin(); iBegin != flit.end(); iBegin++) {
-                    std::cout<<(*iBegin);
-                }
             } catch (std::string e) {
                 std::cerr<<e<<std::endl;
             }
@@ -70,20 +66,15 @@ int main(int argc, const char * argv[]) {
             docCreate.addObject(root, mayPropertyObject);
 
 
-            JsonStream stream(JsonStreamType::TerminalOut);
-
-            stream<<docCreate;
+            JsonStream stream; 
+            std::cout<<(stream<<docCreate);
 
             std::cout<<std::endl;
         }
-
-
+ 
     }else{
         std::cerr<<std::string(std::strerror(errno))<<std::endl;
     }
-
-
-
-
+ 
     return 0;
 }
