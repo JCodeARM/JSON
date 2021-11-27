@@ -185,7 +185,7 @@ void JsonDocument::parseJson(const char* iBegin , const char* iEnd){
             throw  std::string("Error root ");
         }
     }
-    // END   CREATE TREE OBJECT
+    // END  CREATE THREE OBJECT
 }
 void JsonDocument::parseObject(JsonObject *lObject,std::list<std::string_view>  *listStringView){
 
@@ -253,7 +253,7 @@ void JsonDocument::parseObject(JsonObject *lObject,std::list<std::string_view>  
                             }else{
                                 throw std::string("Error Token []: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
                             }
-                        }else if ((*iBegin).length() > 1 && (*iBegin).front() == '"' && (*iBegin).back()){
+                        }else if ((*iBegin).length() > 1 && (*iBegin).front() == '"' && (*iBegin).back() == '"'){
                             std::string s(*iSearch);
                             std::string v(*iBegin);
                             lObject->addProperty(s, new JsonString(v));
@@ -312,9 +312,8 @@ void JsonDocument::parseArray(JsonArray *lArray,std::list<std::string_view>  *li
 
     for (auto iBegin=listStringView->begin(); iBegin != listStringView->end(); iBegin++) {
 
-        if ((*iBegin).length() > 0) {
 
-            if ((*iBegin).front() == '{') {
+            if ((*iBegin) == "{") {
                 std::list<std::string_view> sObjectList;
                 int tNumber=1;
                 for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
@@ -338,7 +337,7 @@ void JsonDocument::parseArray(JsonArray *lArray,std::list<std::string_view>  *li
                 }else{
                     throw std::string("Error Token {}: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
                 }
-            }else if((*iBegin).front() == '['){
+            }else if((*iBegin) == "["){
                 std::list<std::string_view> sArrayList;
                 int tNumber=1;
                 for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
@@ -363,7 +362,7 @@ void JsonDocument::parseArray(JsonArray *lArray,std::list<std::string_view>  *li
                 }else{
                     throw std::string("Error Token []: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
                 }
-            }else if ((*iBegin).front() == '"'){
+            }else if ((*iBegin).length() > 1 && (*iBegin).front() == '"' && (*iBegin).back() == '"'){
                 std::string s(*iBegin);
                 lArray->additem(new JsonString(s));
                 lNextItem=TokenNext::End;
@@ -383,9 +382,7 @@ void JsonDocument::parseArray(JsonArray *lArray,std::list<std::string_view>  *li
             }else if ((*iBegin) == ","){
                 throw std::string("Error Token , : File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
             }
-        }else{
-            throw std::string("Error Token : File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
-        }
+
 
         auto iteratorNextItem=iBegin;
         iteratorNextItem++;
@@ -418,5 +415,5 @@ JsonStream & operator <<(JsonStream & lout, JsonDocument & lin){
     }
     return lout;
 }
-// END   OPERATOR OSTREAM <<
+// END   OPERATOR <<
  

@@ -18,14 +18,7 @@ public:
     JsonArray(JsonArray &&) = delete;
     JsonArray & operator =(const JsonArray &)=delete;
     JsonArray & operator =(JsonArray &&)=delete;
-
  
-    std::size_t size();
-
-
-
-    
-
 protected:
     JsonArray();
     ~JsonArray();

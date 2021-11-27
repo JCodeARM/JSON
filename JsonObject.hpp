@@ -22,8 +22,6 @@ public:
     JsonObject & operator = (JsonObject &&)=delete;
     
     const JsonBase * operator [](std::string &key);
-
-
 protected:
     JsonObject();
     ~JsonObject();
