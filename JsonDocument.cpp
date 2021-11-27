@@ -43,7 +43,7 @@ JsonObject * JsonDocument::getNodeRoot(){
 JsonObject  * JsonDocument::addObject(JsonObject  * lObject,std::string &lProperty){
     JsonObject *lReturn;
     lReturn=new JsonObject();
-   std::string s("\""+lProperty+"\"");
+    std::string s("\""+lProperty+"\"");
     lObject->addProperty(s, lReturn);
     return lReturn;
 }
@@ -102,7 +102,7 @@ void JsonDocument::addBoolean(JsonArray  * lArray,bool lValue){
 }
 void  JsonDocument::addNull(JsonArray     * lArray){
 
-    lArray->additem(new JsonNull()); 
+    lArray->additem(new JsonNull());
 }
 
 std::vector<char> JsonDocument::getVectorJson(JsonDocumentFormat lFormat){
@@ -175,15 +175,13 @@ void JsonDocument::parseJson(const char* iBegin , const char* iEnd){
     // END   SHOW PARSS  TOKEN
     // BEGIN CREATE THREE OBJECT
 
-    if (listToken.size() > 1 ) {
-        if (listToken.front() == "{" && listToken.back() == "}" ) {
-            listToken.pop_back();
-            listToken.pop_front();
-            lJsonRootObject=new JsonObject();
-            parseObject(lJsonRootObject,&listToken);
-        }else{
-            throw  std::string("Error root ");
-        }
+    if (listToken.size() > 1 && listToken.front() == "{" && listToken.back() == "}" ) {
+        listToken.pop_back();
+        listToken.pop_front();
+        lJsonRootObject=new JsonObject();
+        parseObject(lJsonRootObject,&listToken);
+    }else{
+        throw  std::string("Error root ");
     }
     // END  CREATE THREE OBJECT
 }
@@ -313,75 +311,75 @@ void JsonDocument::parseArray(JsonArray *lArray,std::list<std::string_view>  *li
     for (auto iBegin=listStringView->begin(); iBegin != listStringView->end(); iBegin++) {
 
 
-            if ((*iBegin) == "{") {
-                std::list<std::string_view> sObjectList;
-                int tNumber=1;
-                for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
+        if ((*iBegin) == "{") {
+            std::list<std::string_view> sObjectList;
+            int tNumber=1;
+            for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
 
-                    if ((*iBegin) == "{") {
-                        tNumber++;
-                    }else if ((*iBegin) == "}"){
-                        tNumber--;
-                        if (tNumber == 0) {
-                            break;
-                        }
+                if ((*iBegin) == "{") {
+                    tNumber++;
+                }else if ((*iBegin) == "}"){
+                    tNumber--;
+                    if (tNumber == 0) {
+                        break;
                     }
-                    sObjectList.push_back(*iBegin);
                 }
-                if (tNumber == 0) {
-
-                    JsonObject *tObject= new JsonObject();
-                    lArray->additem(tObject);
-                    parseObject(tObject,&sObjectList);
-                    lNextItem=TokenNext::End;
-                }else{
-                    throw std::string("Error Token {}: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
-                }
-            }else if((*iBegin) == "["){
-                std::list<std::string_view> sArrayList;
-                int tNumber=1;
-                for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
-
-                    if ((*iBegin) == "[") {
-                        tNumber++;
-                    }else if ((*iBegin) == "]"){
-                        tNumber--;
-                        if (tNumber == 0) {
-                            break;
-                        }
-                    }
-                    sArrayList.push_back(*iBegin);
-                }
-                if (tNumber == 0) {
-
-
-                    JsonArray *tArray= new JsonArray();
-                    lArray->additem( tArray);
-                    parseArray(tArray,&sArrayList);
-                    lNextItem=TokenNext::End;
-                }else{
-                    throw std::string("Error Token []: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
-                }
-            }else if ((*iBegin).length() > 1 && (*iBegin).front() == '"' && (*iBegin).back() == '"'){
-                std::string s(*iBegin);
-                lArray->additem(new JsonString(s));
-                lNextItem=TokenNext::End;
-            }else if (std::isdigit((*iBegin).front())){
-                double d=std::atof(std::string(*iBegin).data());
-                lArray->additem(new JsonNumber(d));
-                lNextItem=TokenNext::End;
-            }else if ((*iBegin) == "true"){
-                lArray->additem(new JsonBoolean(true));
-                lNextItem=TokenNext::End;
-            }else if ((*iBegin) == "false"){
-                lArray->additem(new JsonBoolean(false));
-                lNextItem=TokenNext::End;
-            }else if ((*iBegin) == "null"){
-                lArray->additem(new JsonNull());
-                lNextItem=TokenNext::End;
-            }else if ((*iBegin) == ","){
-                throw std::string("Error Token , : File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
+                sObjectList.push_back(*iBegin);
             }
+            if (tNumber == 0) {
+
+                JsonObject *tObject= new JsonObject();
+                lArray->additem(tObject);
+                parseObject(tObject,&sObjectList);
+                lNextItem=TokenNext::End;
+            }else{
+                throw std::string("Error Token {}: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
+            }
+        }else if((*iBegin) == "["){
+            std::list<std::string_view> sArrayList;
+            int tNumber=1;
+            for ( iBegin++; iBegin != listStringView->end(); iBegin++) {
+
+                if ((*iBegin) == "[") {
+                    tNumber++;
+                }else if ((*iBegin) == "]"){
+                    tNumber--;
+                    if (tNumber == 0) {
+                        break;
+                    }
+                }
+                sArrayList.push_back(*iBegin);
+            }
+            if (tNumber == 0) {
+
+
+                JsonArray *tArray= new JsonArray();
+                lArray->additem( tArray);
+                parseArray(tArray,&sArrayList);
+                lNextItem=TokenNext::End;
+            }else{
+                throw std::string("Error Token []: File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
+            }
+        }else if ((*iBegin).length() > 1 && (*iBegin).front() == '"' && (*iBegin).back() == '"'){
+            std::string s(*iBegin);
+            lArray->additem(new JsonString(s));
+            lNextItem=TokenNext::End;
+        }else if (std::isdigit((*iBegin).front())){
+            double d=std::atof(std::string(*iBegin).data());
+            lArray->additem(new JsonNumber(d));
+            lNextItem=TokenNext::End;
+        }else if ((*iBegin) == "true"){
+            lArray->additem(new JsonBoolean(true));
+            lNextItem=TokenNext::End;
+        }else if ((*iBegin) == "false"){
+            lArray->additem(new JsonBoolean(false));
+            lNextItem=TokenNext::End;
+        }else if ((*iBegin) == "null"){
+            lArray->additem(new JsonNull());
+            lNextItem=TokenNext::End;
+        }else if ((*iBegin) == ","){
+            throw std::string("Error Token , : File Name:"+std::string(__FILE_NAME__)+" Line:"+std::to_string(__LINE__));
+        }
 
 
         auto iteratorNextItem=iBegin;
@@ -403,7 +401,7 @@ JsonDocument JsonDocument::fromVecotr(std::vector<char> & lArray){
         const char *iBegine=lArray.data();
         const char *iEnd=iBegine+lArray.size();
         lReturnDoc.parseJson(iBegine, iEnd);
-
+        
     }
     return lReturnDoc;
 }
@@ -416,4 +414,4 @@ JsonStream & operator <<(JsonStream & lout, JsonDocument & lin){
     return lout;
 }
 // END   OPERATOR <<
- 
+
